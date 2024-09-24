@@ -1,0 +1,25 @@
+name = "api-worker-cloudflare"
+compatibility_date = "2024-09-24"
+compatibility_flags = [ "nodejs_compat" ]
+main = "src/index.ts"
+
+
+[vars]
+SECRET_KEY = "this-var-in-wrangler"
+
+# [[kv_namespaces]]
+# binding = "MY_KV_NAMESPACE"
+# id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+# [[r2_buckets]]
+# binding = "MY_BUCKET"
+# bucket_name = "my-bucket"
+
+[[d1_databases]]
+binding = "DB" # i.e. available in your Worker on env.DB
+database_name = "d1-example-db"
+database_id = "8e2da676-ae58-4ed1-9e62-9ced313e8226"
+
+
+# [ai]
+# binding = "AI"
