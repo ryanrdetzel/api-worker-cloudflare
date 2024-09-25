@@ -25,7 +25,7 @@ app.use("*", async (c, next) => {
   await next();
 });
 
-app.get("/api", async (c) => {
+app.get("/api/example", async (c) => {
   /* This is a example of how to use env and secrets */
   const SECRET_KEY = c.env.SECRET_KEY;
 
