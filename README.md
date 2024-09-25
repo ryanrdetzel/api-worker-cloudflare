@@ -27,20 +27,15 @@ npx wrangler d1 create <DATABASE_NAME>
 
 Copy the output and replace what's in wrangler.toml
 
-### Schema
-
-Create a new file in schemas 
-
-replace d1-example-db with the database name in wrangler.toml
+### Database Migrations
 
 ```
-npx wrangler d1 execute d1-example-db --file=./schemas/schema.sql
+npx wrangler d1 migrations create DB initial
+npx wrangler d1 migrations list DB
 ```
 
-To execute the schema on the remove database
-
 ```
-npx wrangler d1 execute d1-example-db --file=./schemas/schema.sql --remote
+npx wrangler d1 migrations apply DB
 ```
 
 

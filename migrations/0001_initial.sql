@@ -1,0 +1,8 @@
+-- Migration number: 0001 	 2024-09-25T23:38:02.969Z
+DROP TABLE IF EXISTS users;
+CREATE TABLE IF NOT EXISTS users (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  username TEXT NOT NULL,
+  password TEXT,
+  email TEXT NOT NULL
+);
