@@ -5,6 +5,7 @@
     "deploy": "wrangler deploy --minify src/index.ts"
   },
   "dependencies": {
+    "@clerk/backend": "^1.13.4",
     "hono": "^4.6.3"
   },
   "devDependencies": {
