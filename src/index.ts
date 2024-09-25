@@ -17,10 +17,11 @@ const app = new Hono<{ Bindings: Bindings }>();
 
 // Middleware can do something to the request.
 // https://hono.dev/docs/guides/middleware
-app.use("/*", cors());
+// https://hono.dev/docs/middleware/builtin/cors
+app.use("*", cors());
 
 app.use("*", async (c, next) => {
-  c.set("user", "Hono");
+  c.set("user", "Hono"); // Example how to add to the context
   await next();
 });
 
