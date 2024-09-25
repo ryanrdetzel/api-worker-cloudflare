@@ -1,4 +1,5 @@
 import { Hono } from "hono";
+import { cors } from "hono/cors";
 
 type Bindings = {
   DB: D1Database;
@@ -16,12 +17,14 @@ const app = new Hono<{ Bindings: Bindings }>();
 
 // Middleware can do something to the request.
 // https://hono.dev/docs/guides/middleware
+app.use("/*", cors());
+
 app.use("*", async (c, next) => {
   c.set("user", "Hono");
   await next();
 });
 
-app.get("/", async (c) => {
+app.get("/api", async (c) => {
   /* This is a example of how to use env and secrets */
   const SECRET_KEY = c.env.SECRET_KEY;
 
