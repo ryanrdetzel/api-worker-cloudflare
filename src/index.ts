@@ -65,47 +65,29 @@ app.get("/api/session", async (c) => {
   const query = "SELECT * FROM users WHERE username = ?";
   const params = [user.id];
 
-  const db = params
-    ? c.env.DB.prepare(query).bind(...params)
-    : c.env.DB.prepare(query);
-  const query_results = await db.all();
+  const db = c.env.DB.prepare(query).bind(...params);
+  let query_results = await db.all();
 
   if (query_results.results.length === 0) {
-    return c.json({ message: "User not found" }, 404);
+    const insertQuery =
+      "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
+    const insertParams = [user.id, user.emailAddresses[0].emailAddress, ""];
+    const insertDb = c.env.DB.prepare(insertQuery).bind(...insertParams);
+
+    try {
+      await insertDb.run();
+      query_results = await db.all();
+    } catch (error) {
+      console.error("Error creating user:", error);
+      return c.json({ message: "Error creating user" }, 500);
+    }
   }
+
+  const user_data = query_results.results[0];
 
   return c.json({
-    name: user.id,
-    query: query_results.results,
+    email: user_data.email,
   });
-});
-
-app.post("/api/session", async (c) => {
-  const user = c.get("user");
-
-  // Check if the user already exists
-  const checkQuery = "SELECT * FROM users WHERE username = ?";
-  const checkParams = [user.id];
-  const checkDb = c.env.DB.prepare(checkQuery).bind(...checkParams);
-  const checkResults = await checkDb.all();
-
-  if (checkResults.results.length > 0) {
-    return c.json({ message: "User already exists" }, 409);
-  }
-
-  // Insert new user
-  const insertQuery =
-    "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
-  const insertParams = [user.id, user.emailAddresses[0].emailAddress, ""];
-  const insertDb = c.env.DB.prepare(insertQuery).bind(...insertParams);
-
-  try {
-    await insertDb.run();
-    return c.json({ message: "User created successfully" }, 201);
-  } catch (error) {
-    console.error("Error creating user:", error);
-    return c.json({ message: "Error creating user" }, 500);
-  }
 });
 
 export default app;
