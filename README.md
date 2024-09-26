@@ -9,6 +9,7 @@ npm run deploy
 
 ## Env and Secrets
 
+
 ### Local
 
 Edit .dev.vars
@@ -38,6 +39,9 @@ npx wrangler d1 migrations list DB
 npx wrangler d1 migrations apply DB
 ```
 
+## Clerk
+Add the clerk secret via the dashboard or command line and then update the existing CLERK keys
+in the wrangler.toml to match the depoyment
 
 ## Deploy
 

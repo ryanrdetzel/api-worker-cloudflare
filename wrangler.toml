@@ -5,7 +5,8 @@ main = "src/index.ts"
 
 
 [vars]
-SECRET_KEY = "this-var-in-wrangler"
+CLERK_PUBLISHABLE_KEY = "pk_test_bW9kZXJuLW1hbW1vdGgtNy5jbGVyay5hY2NvdW50cy5kZXYk"
+CLERK_PUBLIC_KEY="-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAyaOX/oA8dNxASmIS7glL\ni+0nXKksv/plfI4r6dt8g0Is5Pd9XvTnauA/E8Odz6bxkXL1CLju7q3tMMa2KK+m\n6A3AHpZHOa+bykDoEExMyK0M2+iRJ4+Xsl50Mp/wHYp0wKUsvieY09sFkQZ/angS\ntKWMA0Hmh/zTygCyDwMm9bHDehB/rqyM/WkN1bcDp2iw5v+OhSTjSD7X3gxbh9Zg\nJcd97Lwsp78PPH+RKhm4/6UslyccDHE1nE/plcB4hhDXc0R9yXFxz0xrWdqEnTkh\nMNcXuUrxaTV57JenYM3hXuaCTyusnlW3fTtvs5yz45Nc43+ai55qn6rof5FT7JDY\nhQIDAQAB\n-----END PUBLIC KEY-----"
 
 # [[kv_namespaces]]
 # binding = "MY_KV_NAMESPACE"
