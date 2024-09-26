@@ -32,12 +32,14 @@ app.use("*", async (c, next) => {
   });
 
   if (!isSignedIn) {
+    console.error("User is not signed in to clerk");
     return c.json({}, 401);
   }
 
   // Get the user information from clerk
   const token = c.req.raw.headers.get("authorization")?.replace("Bearer ", "");
   if (!token) {
+    console.error("No token found in authorization header");
     return c.json({}, 401);
   }
   const sessionClaims = await verifyToken(token, {
@@ -45,6 +47,7 @@ app.use("*", async (c, next) => {
   });
 
   if (!sessionClaims) {
+    console.error("Invalid token");
     return c.json({ error: "Invalid token" }, 401);
   }
 
