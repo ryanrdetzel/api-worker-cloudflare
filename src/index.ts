@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { createClerkClient, verifyToken } from "@clerk/backend";
-import type { User } from "@clerk/backend"; // Assuming User is the correct type to use
+import type { User } from "@clerk/backend";
 
 type Bindings = {
   DB: D1Database;
@@ -19,9 +19,6 @@ declare module "hono" {
 
 const app = new Hono<{ Bindings: Bindings }>();
 
-// Middleware can do something to the request.
-// https://hono.dev/docs/guides/middleware
-// https://hono.dev/docs/middleware/builtin/cors
 app.use("*", cors());
 
 app.use("*", async (c, next) => {

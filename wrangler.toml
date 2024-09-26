@@ -17,9 +17,8 @@ SECRET_KEY = "this-var-in-wrangler"
 
 [[d1_databases]]
 binding = "DB" # i.e. available in your Worker on env.DB
-database_name = "d1-example-db"
-database_id = "8e2da676-ae58-4ed1-9e62-9ced313e8226"
-
+database_name = "database1"
+database_id = "c1ed4c4d-cf86-48fb-bfb2-eb6a26bec9df"
 
 # [ai]
 # binding = "AI"
