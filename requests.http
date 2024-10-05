@@ -1,0 +1,13 @@
+POST  http://localhost:50966/auth/register
+
+{
+  "email": "testuser@aol.com",
+  "password":"test"
+}
+
+###
+GET  http://localhost:50966/api/session
+Cookie: session=69872541-cdc3-4173-9179-5741cd1f1afb; Max-Age=604800; Path=/; HttpOnly; Secure; SameSite=Strict
+### 
+POST  http://localhost:50966/auth/logout
+Cookie: session=e9b279c4-65bc-4255-8e5f-fec1ea0d1c7c; Max-Age=604800; Path=/; HttpOnly; Secure; SameSite=Strict

@@ -1,50 +1,54 @@
-export async function getUserData(db: D1Database, userId: string) {
-  const query = "SELECT * FROM Users WHERE username = ?";
-  const params = [userId];
+import bcrypt from "bcryptjs";
+import { UserData } from "../types/bindings";
 
-  const result = await db
-    .prepare(query)
-    .bind(...params)
-    .all();
-  return result.results[0];
+async function hashPassword(password: string) {
+  const saltRounds = 10; // The higher, the more secure, but also slower
+  const hashedPassword = await bcrypt.hash(password, saltRounds);
+  return hashedPassword;
 }
 
-export async function getUserDataByEmail(db: D1Database, email: string) {
-  const query = "SELECT * FROM Users WHERE email = ?";
-  const params = [email];
+export async function registerUser(
+  email: string,
+  password: string,
+  db: D1Database
+): Promise<UserData | null> {
+  const hashedPassword = await hashPassword(password);
 
-  const result = await db
-    .prepare(query)
-    .bind(...params)
-    .all();
-  return result.results[0];
-}
+  // TODO check if this user already exists
 
-export async function createUser(
-  db: D1Database,
-  userId: string,
-  email: string
-) {
-  const insertQuery =
-    "INSERT INTO Users (username, email, password) VALUES (?, ?, ?)";
-  const insertParams = [userId, email, ""];
-
+  // Store in D1
   await db
-    .prepare(insertQuery)
-    .bind(...insertParams)
+    .prepare("INSERT INTO users (email, password) VALUES (?, ?)")
+    .bind(email, hashedPassword)
     .run();
+
+  return await authenticateUser(email, password, db);
 }
 
-export async function updateUser(
-  db: D1Database,
-  userId: string,
-  email: string
-) {
-  const updateQuery = "UPDATE Users SET username = ? WHERE email= ?";
-  const updateParams = [userId, email];
+export async function authenticateUser(
+  email: string,
+  password: string,
+  db: D1Database
+): Promise<UserData | null> {
+  const user = await db
+    .prepare("SELECT * FROM users WHERE email = ?")
+    .bind(email)
+    .first();
 
-  await db
-    .prepare(updateQuery)
-    .bind(...updateParams)
-    .run();
+  if (!user) {
+    return null; // User not found
+  }
+
+  // Compare provided password with stored hash
+  const isMatch = await bcrypt.compare(password, user.password);
+  if (isMatch) {
+    return {
+      id: user.id,
+      email: user.email,
+      blocked_categories: user.blocked_categories,
+      blocked_questions: user.blocked_questions,
+    } as UserData;
+  }
+
+  return null;
 }
