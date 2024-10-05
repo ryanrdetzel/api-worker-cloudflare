@@ -7,7 +7,7 @@ import { authRoutes } from "./routes/auth";
 
 const app = new Hono<{ Bindings: Bindings }>();
 
-app.use("*", cors());
+app.use("*", cors()); //TODO
 app.use("/api/*", authMiddleware);
 app.use("/auth/logout", authMiddleware);
 
