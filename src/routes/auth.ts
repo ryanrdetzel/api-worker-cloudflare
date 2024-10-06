@@ -32,8 +32,8 @@ const setSessionCookie = async (user: UserData, c) => {
 
   setCookie(c, "session", sessionId, {
     httpOnly: true,
-    // secure: true,
-    // sameSite: "Strict",
+    secure: true,
+    sameSite: "None", //TODO CHANGE ME
     maxAge: expiresSeconds,
     path: "/",
   });
